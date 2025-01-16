@@ -1,0 +1,7 @@
+---
+const { number, reference, active } = Astro.props;
+---
+
+<a class="rounded-full size-16 flex justify-center items-center border-blue-400 transition-all" class:list={[{ 'bg-blue-400 text-white text-2xl': active }, { 'bg-white text-gray-700 text-lg hover:border ': !active }]} href={reference}>
+    {number}
+</a>

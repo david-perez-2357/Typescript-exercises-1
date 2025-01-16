@@ -1,0 +1,64 @@
+---
+import MovieCard from "../components/MovieCard.astro";
+import ExerciseContainer from "../components/ExerciseContainer.astro";
+import { Movie} from "../classes/Movie";
+
+// const allMovies: Movie[] = [
+//     new Movie("El señor de los anillos", 2001, "Peter Jackson", 9 , "Fantasía"),
+//     new Movie("Star Wars", 2005, "Jorge Lucas", 8 , "Acción"),
+//     new Movie("Harry Potter", 2003, "J.K. Rowling", 7 , "Fantasía"),
+//     new Movie("El padrino", 1972, "Francis Ford Coppola", 10 , "Drama"),
+//     new Movie("El resplandor", 1980, "Stanley Kubrick", 8 , "Terror"),
+//     new Movie("El exorcista", 1973, "William Friedkin", 7 , "Terror"),
+//     new Movie("El club de la lucha", 1999, "David Fincher", 9 , "Drama"),
+//     new Movie("El silencio de los corderos", 1991, "Jonathan Demme", 8 , "Terror"),
+//     new Movie("El sexto sentido", 1999, "M. Night Shyamalan", 7 , "Terror")
+// ];
+//
+// const genres = [...new Set(allMovies.map(movie => movie.genre))];
+//
+// let ratingAvg: number | string = allMovies.reduce((acc, movie) => acc + movie.rating, 0) / allMovies.length;
+// ratingAvg = ratingAvg.toFixed(2);
+//
+// const mostRatedMovies = allMovies.sort((a, b) => b.rating - a.rating).slice(0, 3);
+// let movies = allMovies;
+
+// const handleGenreChange = (event: Event) => {
+//     const selectedGenre = (event.target as HTMLSelectElement).value;
+//
+//     const moviesContainer = document.getElementById("moviesContainer") || {};
+//     moviesContainer.innerHTML = "";
+//     console.log(selectedGenre);
+//
+//     filterMovies(selectedGenre).forEach((movie) => {
+//         const movieCard = document.createElement("movie-card");
+//         movieCard.setAttribute("movie", JSON.stringify(movie));
+//         movieCard.setAttribute("order", "2");
+//         moviesContainer.appendChild(movieCard);
+//     });
+// };
+---
+
+<ExerciseContainer exerciseNumber="1">
+    <h1 class="text-2xl text-gray-800 font-bold">Películas</h1>
+    <p class="m-0 text-gray-600" id="ratingAvg"></p>
+
+    <div class="mt-5">
+        <label>Top 3 peliculas</label>
+        <div  class="grid grid-cols-3 gap-4 mt-4" id="mostRatedMoviesContainer">
+        </div>
+    </div>
+
+    <div class="mt-9">
+        <label class="text-muted" for="genreSelect">Buscar por género</label>
+        <select class="w-full p-2 rounded-md bg-gray-200 pe-5 focus:outline-none" id="genreSelect">
+            <option value="" selected>Selecciona un género</option>
+        </select>
+    </div>
+
+    <div class="grid grid-cols-3 gap-4 mt-4" id="moviesContainer">
+        <!-- Aquí se renderizarán las películas -->
+    </div>
+
+    <script src="./exercise1.js"></script>
+</ExerciseContainer>

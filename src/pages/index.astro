@@ -1,0 +1,64 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ExerciseContainer from "../components/ExerciseContainer.astro";
+import NavNumber from "../components/NavNumber.astro";
+import Exercise1 from "../exercises/Exercise1.astro";
+
+---
+
+<Layout>
+	<header class="p-10 text-white text-center flex h-screen items-center flex-col gap-10 justify-center">
+		<h1 data-aos="fade-down" data-aos-delay="200" class="font-bold text-6xl">Ejercicios typescript unidad 4</h1>
+		<div class="flex items-center gap-4 justify-center" data-aos="fade-up" data-aos-delay="200">
+			<img src="/david.jpeg" alt="David" class="rounded-full size-14" />
+			<div class="flex flex-col text-start gap-1" >
+				<h2 class="text-xl">David Pérez Fernández</h2>
+				<span class="text-xs">Desarrollo de aplicaciones web entorno cliente</span>
+			</div>
+		</div>
+	</header>
+	<main class="grid grid-cols-[auto_1fr]" transition:animate="slide">
+		<aside class="h-screen top-0 sticky p-5">
+			<nav class="bg-white w-20 flex-col p-2 flex justify-between h-full rounded-full">
+				<NavNumber number="1" reference="#exercise-1" active={true} />
+				<NavNumber number="2" reference="#exercise-2" />
+				<NavNumber number="3" reference="#exercise-3" />
+				<NavNumber number="4" reference="#exercise-4" />
+				<NavNumber number="5" reference="#exercise-5" />
+				<NavNumber number="6" reference="#exercise-6" />
+			</nav>
+		</aside>
+		<div class="p-10 flex flex-col gap-16">
+			<Exercise1 />
+			<ExerciseContainer exerciseNumber="2">
+				Hola
+			</ExerciseContainer>
+		</div>
+	</main>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", () => {
+			const containers = document.querySelectorAll("div[id^='exercise-']");
+			const observerOptions = {
+				root: null, // Usa la ventana completa como viewport
+				threshold: 0.5, // Se considera visible si al menos el 50% del elemento está en el viewport
+			};
+
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach((entry) => {
+					if (!entry.isIntersecting) {
+						return;
+					}
+					console.log(`El contenedor visible es: ${entry.target.id}`);
+					const navItem = document.querySelector(`a[href="#${entry.target.id}"]`);
+					document.querySelectorAll("a").forEach((item) => item.classList.remove("bg-blue-400", "text-gray-700", "text-2xl", "hover:border", "text-white"));
+					document.querySelectorAll("a").forEach((item) => item.classList.add("bg-white", "text-gray-700", "text-lg", "hover:border"));
+					navItem.classList.remove("bg-white", "text-gray-700", "text-lg", "hover:border");
+					navItem.classList.add("bg-blue-400", "text-white", "text-2xl");
+				});
+			}, observerOptions);
+
+			containers.forEach((container) => observer.observe(container));
+		});
+	</script>
+</Layout>
