@@ -1,8 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import ExerciseContainer from "../components/ExerciseContainer.astro";
+import {ExerciseContainer} from "../components/ExerciseContainer.jsx";
 import NavNumber from "../components/NavNumber.astro";
-import Exercise1 from "../exercises/Exercise1.astro";
+import {Exercise1} from "../exercises/Exercise1.jsx";
+import {Exercise2} from "../exercises/Exercise2.jsx";
 
 ---
 
@@ -18,21 +19,19 @@ import Exercise1 from "../exercises/Exercise1.astro";
 		</div>
 	</header>
 	<main class="grid grid-cols-[auto_1fr]" transition:animate="slide">
-		<aside class="h-screen top-0 sticky p-5">
+		<aside class="h-screen top-0 sticky p-5 py-28 flex flex-col gap-10 items-center justify-between">
+			<div class="bg-white flex-col p-3 rounded-full">
+				<img src="/astro_logo.png" alt="Logo" class="w-8 h-8" />
+			</div>
 			<nav class="bg-white w-20 flex-col p-2 flex justify-between h-full rounded-full">
 				<NavNumber number="1" reference="#exercise-1" active={true} />
 				<NavNumber number="2" reference="#exercise-2" />
 				<NavNumber number="3" reference="#exercise-3" />
-				<NavNumber number="4" reference="#exercise-4" />
-				<NavNumber number="5" reference="#exercise-5" />
-				<NavNumber number="6" reference="#exercise-6" />
 			</nav>
 		</aside>
 		<div class="p-10 flex flex-col gap-16">
-			<Exercise1 />
-			<ExerciseContainer exerciseNumber="2">
-				Hola
-			</ExerciseContainer>
+			<Exercise1 client:load />
+			<Exercise2 client:load />
 		</div>
 	</main>
 
