@@ -126,6 +126,7 @@ export const Exercise2 = () => {
         setBenefit(restaurant.totalSales);
         setNewOrderSent(false);
         setRestaurantOrders([...restaurantOrders, newOrderInstance]);
+        setFilteredOrders([...restaurantOrders, newOrderInstance]);
     }
 
     function filterOrders(clientSearch, priceFilter) {
