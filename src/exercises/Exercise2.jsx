@@ -15,11 +15,7 @@ class Order {
         this.id = id;
         this.client = client;
         this.dishes = dishes;
-        this.price = dishes.reduce((acc, dish) => acc + dish.price, 0);
-    }
-
-    get totalDishes() {
-        return this.dishes.length;
+        this.price = dishes.reduce((acc, dish) => acc + dish.price * dish.quantity, 0);
     }
 
     addDish(dish) {
@@ -98,55 +94,57 @@ export const Exercise2 = () => {
             <h1 className="text-2xl text-gray-800 font-bold">Restaurante</h1>
             <p className="m-0 text-gray-600" id="ratingAvg">{benefit}€ de beneficio</p>
 
-            <div className="mt-5 rounded-xl border-4 border-gray-100 p-4 flex flex-col gap-5">
-                <h2 className="text-xl font-bold text-gray-800">Añadir pedido</h2>
-                <div className="flex flex-col gap-5">
-                    <div className="grid grid-cols-2 gap-3">
-                        <div>
-                            <label htmlFor="client" className="text-gray-900">Cliente</label>
-                            <input type="text" id="client"
-                                   value={newOrder.client}
-                                      onChange={e => setNewOrder({...newOrder, client: e.target.value})}
-                                   className={"w-full p-2 rounded-md bg-gray-200 px-3 focus:outline-none" + (newOrderSent && !newOrder.client ? " border-2 border-red-500" : "")}
-                            />
-                        </div>
-
-                        <div className="grid grid-cols-[1fr_auto] gap-5 content-center">
-                            <div>
-                                <label htmlFor="dishes" className="text-gray-900">Platos</label>
-                                <select id="dishes"
-                                        value={dishSelected}
-                                        onChange={e => setDishSelected(e.target.value)}
-                                        className={"w-full p-2 rounded-md bg-gray-200 px-3 focus:outline-none" + (newOrderSent && newOrder.dishes.length === 0 ? " border-2 border-red-500" : "")}>
-                                    {allDishes.map(dish => <option key={dish.id} value={dish.id}>{dish.name}</option>)}
-                                </select>
-                            </div>
-                            <a className="text-blue-500 select-none mt-4 cursor-pointer underline self-center hover:text-blue-700" onClick={() => addDishToOrder(dishSelected)}>Añadir</a>
-                        </div>
+            <div className="mt-5 rounded-xl relative w-full  bg-gray-50 flex-wrap p-6 flex justify-between items-center gap-x-16 gap-y-8">
+                <h2 className="text-xl font-bold -top-5 text-gray-800 absolute w-full text-center">Añadir pedido</h2>
+                <div className="grid grid-cols-2 w-full max-w-[800px] gap-3">
+                    <div>
+                        <label htmlFor="client" className="text-gray-900">Cliente</label>
+                        <input type="text" id="client"
+                               value={newOrder.client}
+                                  onChange={e => setNewOrder({...newOrder, client: e.target.value})}
+                               className={"w-full p-2 rounded-md bg-gray-200 px-3 focus:outline-none" + (newOrderSent && !newOrder.client ? " border-2 border-red-500" : "")}
+                        />
                     </div>
 
-                    <div className="flex">
-                        <div className="w-full flex flex-col gap-1">
-                            <label htmlFor="order" className="text-lg text-gray-900">Pedido</label>
-                            <div id="order" className="flex flex-col gap-2">
-                                {newOrder.dishes.map(dish => (
-                                    <div key={dish.id} className="flex text-gray-700 justify-between">
-                                        <span>{dish.quantity}x {dish.name}</span>
-                                        <span>{dish.price}€</span>
-                                    </div>
-                                ))}
+                    <div className="grid grid-cols-[1fr_auto] gap-5 content-center">
+                        <div>
+                            <label htmlFor="dishes" className="text-gray-900">Platos</label>
+                            <select id="dishes"
+                                    value={dishSelected}
+                                    onChange={e => setDishSelected(e.target.value)}
+                                    className={"w-full p-2 rounded-md bg-gray-200 px-3 focus:outline-none" + (newOrderSent && newOrder.dishes.length === 0 ? " border-2 border-red-500" : "")}>
+                                {allDishes.map(dish => <option key={dish.id} value={dish.id}>{dish.name}</option>)}
+                            </select>
+                        </div>
+                        <a className="text-blue-500 select-none mt-4 cursor-pointer underline self-center hover:text-blue-700" onClick={() => addDishToOrder(dishSelected)}>Añadir</a>
+                    </div>
+                </div>
 
-                                <div className="flex border-t-2 pt-2 justify-between mt-3">
-                                    <span>Total</span>
-                                    <span>{newOrder.price}€</span>
-                                </div>
+                <div className={"w-full flex mt-4 flex-col gap-1 max-w-[500px]" + (newOrder.dishes.length === 0 ? " hidden" : "")}>
+                    <label htmlFor="order" className="text-lg text-gray-900 text-center w-full">Cuenta</label>
+                    <div id="order" className="flex flex-col gap-2">
+                        {newOrder.dishes.map(dish => (
+                            <div key={dish.id} className="flex text-gray-800 justify-between">
+                                <span>{dish.quantity}x {dish.name}</span>
+                                <span>{dish.price * dish.quantity}€</span>
                             </div>
+                        ))}
+
+                        <div className="flex items-center border-t-2 pt-3 justify-between mt-3">
+                            <div className={"flex gap-4"}>
+                                <span>Total: </span>
+                                <b>{newOrder.price}€</b>
+                            </div>
+
+                            <button
+                                className="bg-blue-500 max-w-96 text-white p-2 rounded-md hover:bg-blue-600 transition-all focus:outline-none"
+                                onClick={() => addNewOrder()}>
+                                Añadir pedido
+                            </button>
                         </div>
                     </div>
                 </div>
-                <button className="bg-blue-500 text-white p-2 rounded-md mt-2 hover:bg-blue-600 transition-all focus:outline-none" onClick={() => addNewOrder()}>
-                    Añadir pedido
-                </button>
+
             </div>
         </ExerciseContainer>
     )
