@@ -4,6 +4,7 @@ import {ExerciseContainer} from "../components/ExerciseContainer.jsx";
 import NavNumber from "../components/NavNumber.astro";
 import {Exercise1} from "../exercises/Exercise1.jsx";
 import {Exercise2} from "../exercises/Exercise2.jsx";
+import {Exercise3} from "../exercises/Exercise3.jsx";
 
 ---
 
@@ -32,31 +33,30 @@ import {Exercise2} from "../exercises/Exercise2.jsx";
 		<div class="p-10 flex flex-col gap-16">
 			<Exercise1 client:load />
 			<Exercise2 client:load />
+			<Exercise3 client:load />
 		</div>
 	</main>
 
 	<script>
 		document.addEventListener("DOMContentLoaded", () => {
-			const containers = document.querySelectorAll("div[id^='exercise-']");
-			const observerOptions = {
-				root: null, // Usa la ventana completa como viewport
-				threshold: 0.5, // Se considera visible si al menos el 50% del elemento está en el viewport
-			};
-
 			const observer = new IntersectionObserver((entries) => {
 				entries.forEach((entry) => {
-					if (!entry.isIntersecting) {
-						return;
-					}
-					console.log(`El contenedor visible es: ${entry.target.id}`);
-					const navItem = document.querySelector(`a[href="#${entry.target.id}"]`);
-					document.querySelectorAll("a").forEach((item) => item.classList.remove("bg-blue-400", "text-gray-700", "text-2xl", "hover:border", "text-white"));
-					document.querySelectorAll("a").forEach((item) => item.classList.add("bg-white", "text-gray-700", "text-lg", "hover:border"));
-					navItem.classList.remove("bg-white", "text-gray-700", "text-lg", "hover:border");
-					navItem.classList.add("bg-blue-400", "text-white", "text-2xl");
-				});
-			}, observerOptions);
+					console.log(`ID: ${entry.target.id}, isIntersecting: ${entry.isIntersecting}, IntersectionRatio: ${entry.intersectionRatio}`);
 
+					if (entry.isIntersecting) {
+						console.log(`El contenedor visible es: ${entry.target.id}`);
+						const navItem = document.querySelector(`a[href="#${entry.target.id}"]`);
+						document.querySelectorAll("a").forEach((item) => {
+							item.classList.remove("bg-blue-400", "text-gray-700", "text-2xl", "hover:border", "text-white");
+							item.classList.add("bg-white", "text-gray-700", "text-lg", "hover:border");
+						});
+						navItem.classList.remove("bg-white", "text-gray-700", "text-lg", "hover:border");
+						navItem.classList.add("bg-blue-400", "text-white", "text-2xl");
+					}
+				});
+			}, { threshold: 0 });
+
+			const containers = document.querySelectorAll("div[id^='exercise-']");
 			containers.forEach((container) => observer.observe(container));
 		});
 	</script>
